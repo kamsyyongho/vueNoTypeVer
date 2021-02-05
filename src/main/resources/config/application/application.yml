@@ -1,0 +1,26 @@
+server:
+  port: 8090
+  error:
+    whitelabel:
+      enabled: false
+    include-exception: false
+    include-stacktrace: never
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+spring:
+  application:
+    name: doss-portal-front
+  profiles:
+    active: local
+  main:
+    allow-bean-definition-overriding: true        
+mybatis:
+  type-aliases-package: com.skcc.twd.customer.core.entity
+  mapper-locations: db/*.xml
+  configuration:
+    map-underscore-to-camel-case: on
+    
+    

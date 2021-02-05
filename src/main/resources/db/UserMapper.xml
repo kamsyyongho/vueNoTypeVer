@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skt.doss.portal.port_infra.persistent.UserMapper">
+    <select id="getUserInfo" resultType="Map">
+        SELECT 
+          doss_id 
+        FROM iam_user_info a
+    </select>
+
+    <select id="checkExistingUser" resultType="Map">
+		select NVL(max('Y'),'N') as is_id_yn
+		from iam_user_info 
+		WHERE  case when #{user_type} = 'A' then doss_id = #{user_id} else id_ci = #{id_ci} end
+    </select> 
+    
+    <select id="makeDossId" resultType="Map">
+	    select
+			lpad(convert(substr(MAX(doss_id),2,7) , unsigned ) + 1 ,6 , 0) as doss_id
+		from iam_user_info
+		where doss_id like 'D%'   
+	</select>	
+ 
+     <select id="selectIlmUserInfo" resultType="Map">
+		 select 
+			empno
+			,hname
+			,indept
+			,deptnm
+			,user_type
+		from INF_PERSON_INFO_RCV 
+		where EMPNO = #{EMPNO};   
+	</select>   
+ 
+      <select id="selectDossUserInfo" resultType="Map">
+		select
+			doss_id
+			,user_type
+			,skt_emp_no
+		from iam_user_info
+		where doss_id = #{doss_id}; 
+	</select> 
+	<insert id="insertUserInfo" parameterType="Map">
+		insert into iam_user_info(
+		    doss_id,           
+		    user_type,         
+		    skt_emp_no ,       
+		    phonoe_no,         
+		    email,             
+		    last_login_dt,      
+		    signup_dt,         
+		    company_cd ,       
+		    portal_role_id  , 
+		    lock_yn,           
+		    ident_check_yn,    
+		    ident_check_date,   
+		    upd_date,          
+		    reg_date 
+	    )
+	    values(
+		    #{doss_id} 	
+		    ,#{user_type}	
+		    ,#{skt_emp_no}	
+		    ,#{phonoe_no}	
+		    ,#{email}	
+		    ,#{last_login_dt}	
+		    ,sysdate()	
+		    ,#{company_cd}	
+		    ,#{portal_role_id}	
+		    ,#{lock_yn}	
+		    ,#{ident_check_yn}	
+		    ,#{ident_check_date}
+		    ,sysdate()
+		    ,sysdate()
+	    )
+	</insert>	     
+    <insert id="insertUserCred" parameterType="Map">
+    	
+    </insert>
+</mapper>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skcc.twd.customer.core.port_infra.persistent.CustomerMapper">
+    <select id="findById" resultType="Customer">
+        SELECT id
+              , password
+              , name
+              , svc_num
+              , auth_level
+              , reg_date
+              , upd_date
+              , reg_id
+              , upd_id
+          FROM customer
+         WHERE ID = #{id}
+    </select>
+
+    <select id="findAll" resultType="Customer">
+        SELECT id
+              , password
+              , name
+              , svc_num
+              , auth_level
+              , reg_date
+              , upd_date
+              , reg_id
+              , upd_id
+          FROM customer
+    </select>
+
+    <insert id="save" parameterType="Customer">
+          INSERT INTO customer (
+                  id
+                  , password
+                  , name
+                  , svc_num
+                  , auth_level
+                  , reg_date
+                  , upd_date
+                  , reg_id
+                  , upd_id
+                  )
+          VALUES (#{id}, #{password}, #{name}, #{svcNum}, #{authLevel}, #{regDate}, #{updDate}, #{regId}, #{updId})
+    </insert>
+
+    <update id="update" parameterType="Customer">
+          UPDATE customer
+          SET    password = #{password}
+                  , name = #{name}
+                  , svc_num = #{svcNum}
+                  , auth_level = #{authLevel}
+                  , reg_date = #{regDate}
+                  , upd_date = #{updDate}
+                  , reg_id = #{regId}
+                  , upd_id  = #{updId}
+          WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="String">
+           DELETE FROM customer
+           WHERE  id = #{id}
+    </delete>
+
+</mapper>
